@@ -2,14 +2,17 @@
   description = "Provides packages, modules and functions for the 06cb:009a fingerprint sensor.";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
+    nixpkgs2311 = {
+      url = "github:NixOS/nixpkgs/nixos-23.11";
+    };
   };
 
   outputs = {
     self,
-    nixpkgs
+    nixpkgs2311,
+    ...
   }: let
-    pkgs = import nixpkgs { system = "x86_64-linux"; };
+    pkgs = import nixpkgs2311 { system = "x86_64-linux"; };
     localPackages = import ./pkgs/default.nix { pkgs = pkgs; };
   in {
     nixosModules.python-validity = { config, lib, ... }: import ./modules/python-validity { config = config; lib = lib; localPackages = localPackages; };
